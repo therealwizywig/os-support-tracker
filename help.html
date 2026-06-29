@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Check Your Current OS Version</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0f1117;
+      color: #e6e8ee;
+      line-height: 1.65;
+    }
+    header {
+      background: linear-gradient(135deg, #1a1d2e 0%, #252a40 100%);
+      border-bottom: 1px solid #2e3348;
+      padding: 2.5rem 1.5rem 2rem;
+    }
+    header h1 { font-size: 1.8rem; margin-bottom: .4rem; }
+    header p { color: #8b90a5; font-size: .95rem; }
+    .back-link {
+      display: inline-block;
+      margin: 1.5rem 1.5rem 0;
+      color: #60a5fa;
+      text-decoration: none;
+      font-size: .85rem;
+    }
+    .back-link:hover { text-decoration: underline; }
+    main { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+    .os-section { margin-bottom: 2.5rem; }
+    .os-header { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+    .os-logo { height: 1.8rem; filter: brightness(0) invert(1); display: inline-block; vertical-align: middle; }
+    .os-header h2 { font-size: 1.25rem; font-weight: 600; }
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: #181b26;
+      border: 1px solid #232739;
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+    }
+    .card h3 {
+      font-size: .9rem;
+      color: #9ca0b8;
+      margin-bottom: .6rem;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+    .card ol { padding-left: 1.2rem; font-size: .88rem; }
+    .card li { margin-bottom: .3rem; color: #c8ccd8; }
+    .card code {
+      background: #0f1117;
+      border: 1px solid #2e3348;
+      border-radius: 5px;
+      padding: .15rem .4rem;
+      font-size: .8rem;
+      font-family: Consolas, Monaco, monospace;
+      color: #e0e4f0;
+    }
+    footer {
+      text-align: center;
+      color: #4b5068;
+      font-size: .75rem;
+      padding: 2rem 1rem 3rem;
+    }
+    footer a { color: #6e7391; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>How to Check Your Current OS Version</h1>
+  <p>Quick instructions for every major platform</p>
+</header>
+
+<a class="back-link" href="os-support-tracker.html">← Back to OS Support Tracker</a>
+
+<main>
+
+  <!-- ════════════════ WINDOWS ════════════════ -->
+  <section class="os-section">
+    <div class="os-header">
+      <img class="os-logo" src="https://upload.wikimedia.org/wikipedia/commons/8/87/Windows_logo_-_2021.svg" alt="Windows">
+      <h2>Windows 10 &amp; 11</h2>
+    </div>
+    <div class="platform-grid">
+      <div class="card">
+        <h3>Settings App</h3>
+        <ol>
+          <li>Press <code>Win + I</code> to open Settings.</li>
+          <li>Go to <code>System → About</code>.</li>
+          <li>Under <em>Device specifications</em> find <strong>System type</strong> and under <em>Windows specifications</em> find <strong>Version</strong> and <strong>OS Build</strong>.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Quick Keyboard Shortcut</h3>
+        <ol>
+          <li>Press <code>Win + R</code>, type <code>winver</code>, press Enter.</li>
+          <li>A pop-up shows your exact Windows version and build number.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Command Line</h3>
+        <ol>
+          <li>Open PowerShell or Command Prompt.</li>
+          <li>Run: <code>ver</code></li>
+          <li>Or: <code>systeminfo | findstr /B /C:"OS Name" /C:"OS Version"</code></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ macOS ════════════════ -->
+  <section class="os-section">
+    <div class="os-header">
+      <img class="os-logo" src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="macOS">
+      <h2>macOS</h2>
+    </div>
+    <div class="platform-grid">
+      <div class="card">
+        <h3>Apple Menu</h3>
+        <ol>
+          <li>Click the <code></code> icon in the menu bar (top-left).</li>
+          <li>Choose <em>About This Mac</em>.</li>
+          <li>The window shows your macOS version name (e.g. Sonoma 14) and build number.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Terminal</h3>
+        <ol>
+          <li>Open <code>Terminal</code> from <code>Applications → Utilities</code>.</li>
+          <li>Run: <code>sw_vers -productName -productVersion -buildVersion</code></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ iPhone / iOS ════════════════ -->
+  <section class="os-section">
+    <div class="os-header">
+      <img class="os-logo" src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Apple_logo_grey.svg" alt="iOS">
+      <h2>iPhone / iPad (iOS / iPadOS)</h2>
+    </div>
+    <div class="platform-grid">
+      <div class="card">
+        <h3>Settings App</h3>
+        <ol>
+          <li>Open <code>Settings</code>.</li>
+          <li>Scroll down and tap <em>General → About</em>.</li>
+          <li>Look for <strong>Software Version</strong> (e.g. 18.5).</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Alternative Path</h3>
+        <ol>
+          <li>Open <code>Settings → General → Software Update</code>.</li>
+          <li>If an update is available, your current version is shown above it.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ ANDROID ════════════════ -->
+  <section class="os-section">
+    <div class="os-header">
+      <img class="os-logo" src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Android_robot.svg" alt="Android">
+      <h2>Android</h2>
+    </div>
+    <div class="platform-grid">
+      <div class="card">
+        <h3>Settings (most devices)</h3>
+        <ol>
+          <li>Open <code>Settings</code>.</li>
+          <li>Go to <em>About phone</em> (or <em>System → About phone</em> on some devices).</li>
+          <li>Find <strong>Android version</strong> or <strong>OS version</strong>.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Build Number (for deeper detail)</h3>
+        <ol>
+          <li>In the same <em>About phone</em> screen.</li>
+          <li>Look at <strong>Build number</strong> for a full build string (e.g. <code>AP3A.240805.005</code>).</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <p style="color:#8b90a5;font-size:.82rem;margin-top:1rem;">ⓘ Android skins vary by manufacturer (Samsung One UI, Xiaomi MIUI, etc.), so menu names may differ slightly.</p>
+
+  <!-- ════════════════ WINDOWS BUILD NUMBER MAP ════════════════ -->
+  <section class="os-section">
+    <div class="os-header">
+      <h2>Windows Build Number Reference</h2>
+    </div>
+    <p style="font-size:.82rem;color:#8b90a5;margin-bottom:.8rem;">Use this when Windows shows a build number but not a marketing version.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>OS Build</th>
+          <th>Marketing Version</th>
+          <th>OS Family</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="version">10240</td><td>Version 1507 (Threshold 1)</td><td>Windows 10</td></tr>
+        <tr><td class="version">10586</td><td>Version 1511 (Threshold 2)</td><td>Windows 10</td></tr>
+        <tr><td class="version">14393</td><td>Version 1607 (Anniversary Update)</td><td>Windows 10</td></tr>
+        <tr><td class="version">15063</td><td>Version 1703 (Creators Update)</td><td>Windows 10</td></tr>
+        <tr><td class="version">16299</td><td>Version 1709 (Fall Creators Update)</td><td>Windows 10</td></tr>
+        <tr><td class="version">17134</td><td>Version 1803 (April Update)</td><td>Windows 10</td></tr>
+        <tr><td class="version">17763</td><td>Version 1809 (October Update)</td><td>Windows 10</td></tr>
+        <tr><td class="version">18362</td><td>Version 1903 (May Update)</td><td>Windows 10</td></tr>
+        <tr><td class="version">19041</td><td>Version 2004 (May Update)</td><td>Windows 10</td></tr>
+        <tr><td class="version">19042</td><td>Version 20H2 (October Update)</td><td>Windows 10</td></tr>
+        <tr><td class="version">19043</td><td>Version 21H1 (November Update)</td><td>Windows 10</td></tr>
+        <tr><td class="version">19044</td><td>Version 21H2 (November 2021 Update)</td><td>Windows 10</td></tr>
+        <tr><td class="version">19045</td><td>Version 22H2 (October Update)</td><td>Windows 10</td></tr>
+        <tr><td class="version">22000</td><td>Version 21H2 (October Update)</td><td>Windows 11</td></tr>
+        <tr><td class="version">22621</td><td>Version 22H2 (October Update)</td><td>Windows 11</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer>
+  <p><a href="os-support-tracker.html">← OS Support Tracker</a></p>
+  <p style="margin-top:.4rem;">Same sources as the tracker: Microsoft, Apple, and endoflife.date</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OS Security Update Support Tracker</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0f1117;
+      color: #e6e8ee;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a1d2e 0%, #252a40 100%);
+      border-bottom: 1px solid #2e3348;
+      padding: 2.5rem 1.5rem 2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: .5rem;
+    }
+
+    header p {
+      color: #8b90a5;
+      font-size: .95rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: .2rem .65rem;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+    .badge-active   { background: #0d3b2e; color: #34d399; }
+    .badge-warning  { background: #3b2e0d; color: #fbbf24; }
+    .badge-eol      { background: #3b0d0d; color: #f87171; }
+
+    .os-logo { display: inline-block; vertical-align: middle; }
+
+    .disclaimer {
+      font-size: .72rem;
+      color: #5f6480;
+      margin-top: .6rem;
+      display: block;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .os-section {
+      margin-bottom: 3rem;
+    }
+
+    .os-header {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .os-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .os-header h2 {
+      font-size: 1.35rem;
+      font-weight: 600;
+    }
+
+    .os-header .os-sub {
+      font-size: .8rem;
+      color: #8b90a5;
+      margin-left: .5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #181b26;
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: .88rem;
+    }
+
+    thead {
+      background: #1e2233;
+    }
+
+    thead th {
+      text-align: left;
+      padding: .75rem 1rem;
+      font-weight: 600;
+      color: #8b90a5;
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      border-bottom: 1px solid #2e3348;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #232739;
+      transition: background .15s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #1d2030; }
+
+    td {
+      padding: .65rem 1rem;
+      vertical-align: middle;
+    }
+
+    td.version {
+      font-weight: 600;
+      color: #d1d5e0;
+      white-space: nowrap;
+    }
+
+    td.date { color: #8b90a5; white-space: nowrap; }
+
+    td.status {
+      text-align: center;
+    }
+
+    .days-left {
+      font-weight: 600;
+      text-align: right;
+    }
+    .days-left.active  { color: #34d399; }
+    .days-left.warning { color: #fbbf24; }
+    .days-left.eol     { color: #6b7280; }
+
+    #detect-result {
+      display: none;
+      background: #181b26;
+      border: 1px solid #2e3348;
+      border-radius: 10px;
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 1.5rem;
+    }
+    #detect-result.show { display: block; }
+    #detect-result h3 {
+      font-size: .8rem;
+      text-transform: uppercase;
+      color: #8b90a5;
+      letter-spacing: .4px;
+      margin-bottom: .5rem;
+      margin-top: .7rem;
+    }
+    #detect-result h3:first-child { margin-top: 0; }
+    #detect-result .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: .4rem 1rem;
+      font-size: .88rem;
+    }
+    #detect-result .info-item { color: #c8ccd8; }
+    #detect-result .info-label { color: #6e7391; font-size: .8rem; display: block; }
+    #detect-result .info-value { color: #e6e8ee; font-weight: 600; }
+    #detect-result #detect-warning { background: #3b2e0d; color: #fbbf24; border: 1px solid #4a3a10; }
+    #detect-result #detect-warning.eol { background: #3b0d0d; color: #f87171; border-color: #4a1010; }
+
+footer {
+      text-align: center;
+      color: #4b5068;
+      font-size: .75rem;
+      padding: 2rem 1rem 3rem;
+    }
+    footer a { color: #6e7391; text-decoration: none; }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      thead th, td { padding: .5rem .6rem; font-size: .8rem; }
+      td.date.white { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>OS Security Update Support Tracker</h1>
+  <p>End-of-support dates for Windows, macOS, iOS, and Android</p>
+  <p>
+    <span class="disclaimer">Last rebuilt: June 2026 · Sourced from Microsoft, Apple, and endoflife.date</span>
+    &nbsp;·&nbsp;
+    <a href="how-to-check-os.html">How to check your current OS version →</a>
+    &nbsp;·&nbsp;
+    <a href="browser-support-tracker.html">Browser versions →</a>
+  </p>
+</header>
+
+  <main>
+
+  <!-- ════════════════ WINDOWS ════════════════ -->
+  <section class="os-section" id="windows">
+    <div class="os-header">
+      <img class="os-logo" src="https://upload.wikimedia.org/wikipedia/commons/8/87/Windows_logo_-_2021.svg" alt="Windows" style="height:2rem;filter:brightness(0) invert(1);">
+      <h2>Windows 11</h2>
+      <span class="os-sub">Home / Pro / Education</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th class="date">Released</th>
+          <th>Security Updates End</th>
+          <th>Status</th>
+          <th style="text-align:right">Updates Left</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="version">27H2</td>
+          <td class="date">May 2026</td>
+          <td class="date">Dec 14 2027</td>
+          <td class="status"><span class="badge badge-active">Active</span></td>
+          <td class="days-left active">~14 months</td>
+        </tr>
+        <tr>
+          <td class="version">26H2</td>
+          <td class="date">Oct 2025</td>
+          <td class="date">Nov 11 2027</td>
+          <td class="status"><span class="badge badge-active">Active</span></td>
+          <td class="days-left active">~14 months</td>
+        </tr>
+        <tr>
+          <td class="version">26H1</td>
+          <td class="date">Feb 10 2026</td>
+          <td class="date">Mar 14 2028</td>
+          <td class="status"><span class="badge badge-active">Active</span></td>
+          <td class="days-left active">~21 months</td>
+        </tr>
+        <tr>
+          <td class="version">25H2</td>
+          <td class="date">Sep 30 2025</td>
+          <td class="date">Oct 12 2027</td>
+          <td class="status"><span class="badge badge-active">Active</span></td>
+          <td class="days-left active">~16 months</td>
+        </tr>
+        <tr>
+          <td class="version">24H2</td>
+          <td class="date">Oct 1 2024</td>
+          <td class="date">Oct 13 2026</td>
+          <td class="status"><span class="badge badge-warning">Warning</span></td>
+          <td class="days-left warning">~4 months</td>
+        </tr>
+        <tr style="background:#0f1117" title="Windows 10 final support date, not a Windows 11 release">
+          <td class="version" style="color:#6b7280">Windows 10</td>
+          <td class="date"><strong>22H2 — Final release</strong></td>
+          <td class="date"><strong>Oct 14 2025 (Windows 10 EOL)</strong></td>
+          <td class="status"></td>
+          <td class="days-left eol"></td>
+        </tr>
+      </tbody>
+    </table>
+    <span class="disclaimer">Source: <a href="https://learn.microsoft.com/en-us/lifecycle/products/windows-11-home-and-pro" target="_blank">Microsoft Lifecycle</a> · Feature versions receive ~22–24 months of security support under the Modern Lifecycle Policy.</span>
+  </section>
+
+  <!-- ════════════════ macOS ════════════════ -->
+  <section class="os-section" id="macos">
+    <div class="os-header">
+      <img class="os-logo" src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="macOS" style="height:2rem;filter:brightness(0) invert(1);">
+      <h2>macOS</h2>
+      <span class="os-sub">All major versions</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Version (Codename)</th>
+          <th class="date">Released</th>
+          <th>Security Updates Ended</th>
+          <th>Status</th>
+          <th style="text-align:right">Updates Left</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="version">26 (Tahoe)</td>
+          <td class="date">Sep 15 2025</td>
+          <td class="date">Late 2026 — 2027</td>
+          <td class="status"><span class="badge badge-active">Active</span></td>
+          <td class="days-left active">~1–2 years</td>
+        </tr>
+        <tr>
+          <td class="version">15 (Sequoia)</td>
+          <td class="date">Sep 16 2024</td>
+          <td class="date">Late 2026 — 2027</td>
+          <td class="status"><span class="badge badge-active">Active</span></td>
+          <td class="days-left active">~1+ year</td>
+        </tr>
+        <tr>
+          <td class="version">14 (Sonoma)</td>
+          <td class="date">Sep 26 2023</td>
+          <td class="date">Late 2026</td>
+          <td class="status"><span class="badge badge-warning">Warning</span></td>
+          <td class="days-left warning">~6 months</td>
+        </tr>
+        <tr>
+          <td class="version">13 (Ventura)</td>
+          <td class="date">Oct 24 2022</td>
+          <td class="date">Sep 2025</td>
+          <td class="status"><span class="badge badge-eol">End of Life</span></td>
+          <td class="days-left eol">—</td>
+        </tr>
+        <tr>
+          <td class="version">12 (Monterey)</td>
+          <td class="date">Oct 25 2021</td>
+          <td class="date">Sep 2024</td>
+          <td class="status"><span class="badge badge-eol">End of Life</span></td>
+          <td class="days-left eol">—</td>
+        </tr>
+        <tr>
+          <td class="version">11 (Big Sur)</td>
+          <td class="date">Nov 12 2020</td>
+          <td class="date">Feb 2026</td>
+          <td class="status"><span class="badge badge-eol">End of Life</span></td>
+          <td class="days-left eol">—</td>
+        </tr>
+      </tbody>
+    </table>
+    <span class="disclaimer">Source: <a href="https://endoflife.date/macos" target="_blank">endoflife.date/macos</a> + <a href="https://support.apple.com/en-us/100100" target="_blank">Apple Security Releases</a> · Apple typically carries the latest 3 major releases with active security patching.</span>
+  </section>
+
+  <!-- ════════════════ iOS ════════════════ -->
+  <section class="os-section" id="ios">
+    <div class="os-header">
+      <img class="os-logo" src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Apple_logo_grey.svg" alt="iOS" style="height:2rem;filter:brightness(0) invert(1);">
+      <h2>iOS</h2>
+      <span class="os-sub">iPhone / iPad OS (major versions)</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th class="date">Released</th>
+          <th>Security Support End</th>
+          <th>Status</th>
+          <th style="text-align:right">Updates Left</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="version">26</td>
+          <td class="date">Sep 15 2025</td>
+          <td class="date">Late 2026 – 2027</td>
+          <td class="status"><span class="badge badge-active">Active</span></td>
+          <td class="days-left active">~1–2 years</td>
+        </tr>
+        <tr>
+          <td class="version">19</td>
+          <td class="date">Sep 2023</td>
+          <td class="date">Unsupported</td>
+          <td class="status"><span class="badge badge-eol">End of Life</span></td>
+          <td class="days-left eol">—</td>
+        </tr>
+        <tr>
+          <td class="version">18 <em style="font-weight:400;color:#8b90a5;font-size:.8em">(feature ended)</em></td>
+          <td class="date">Sep 16 2024</td>
+          <td class="date">Still receiving security patches (as of Jun 2026)</td>
+          <td class="status"><span class="badge badge-warning">Security only</span></td>
+          <td class="days-left warning">Uncertain</td>
+        </tr>
+        <tr>
+          <td class="version">17 <em style="font-weight:400;color:#8b90a5;font-size:.8em">(feature ended)</em></td>
+          <td class="date">Sep 18 2023</td>
+          <td class="date">Nov 19 2024</td>
+          <td class="status"><span class="badge badge-eol">End of Life</span></td>
+          <td class="days-left eol">—</td>
+        </tr>
+        <tr>
+          <td class="version">16 <em style="font-weight:400;color:#8b90a5;font-size:.8em">(feature ended)</em></td>
+          <td class="date">Sep 12 2022</td>
+          <td class="date">Still receiving security patches (as of Jun 2026)</td>
+          <td class="status"><span class="badge badge-warning">Security only</span></td>
+          <td class="days-left warning">Uncertain</td>
+        </tr>
+        <tr>
+          <td class="version">15 <em style="font-weight:400;color:#8b90a5;font-size:.8em">(feature ended)</em></td>
+          <td class="date">Sep 20 2021</td>
+          <td class="date">Still receiving security patches (as of Jun 2026)</td>
+          <td class="status"><span class="badge badge-warning">Security only</span></td>
+          <td class="days-left warning">Uncertain</td>
+        </tr>
+        <tr>
+          <td class="version">12</td>
+          <td class="date">Sep 17 2018</td>
+          <td class="date">Jan 26 2026</td>
+          <td class="status"><span class="badge badge-eol">End of Life</span></td>
+          <td class="days-left eol">—</td>
+        </tr>
+      </tbody>
+    </table>
+    <span class="disclaimer">Source: <a href="https://endoflife.date/ios" target="_blank">endoflife.date/ios</a> + <a href="https://support.apple.com/en-us/100100" target="_blank">Apple Security Releases</a> · Apple occasionally backports critical fixes to older iOS versions — security support ≠ feature support.</span>
+  </section>
+
+  <!-- ════════════════ ANDROID ════════════════ -->
+  <section class="os-section" id="android">
+    <div class="os-header">
+      <img class="os-logo" src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Android_robot.svg" alt="Android" style="height:2rem;filter:brightness(0) invert(1);">
+      <h2>Android</h2>
+      <span class="os-sub">Google Pixel / AOSP (major versions)</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Version (Codename)</th>
+          <th class="date">Released</th>
+          <th>Security Support End</th>
+          <th>Status</th>
+          <th style="text-align:right">Updates Left</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="version">17 "Cinnamon Bun"</td>
+          <td class="date">Jun 16 2026</td>
+          <td class="date">Active</td>
+          <td class="status"><span class="badge badge-active">Active</span></td>
+          <td class="days-left active">Ongoing</td>
+        </tr>
+        <tr>
+          <td class="version">16 "Baklava"</td>
+          <td class="date">Jun 10 2025</td>
+          <td class="date">Active</td>
+          <td class="status"><span class="badge badge-active">Active</span></td>
+          <td class="days-left active">Ongoing</td>
+        </tr>
+        <tr>
+          <td class="version">15 "Vanilla Ice Cream"</td>
+          <td class="date">Sep 3 2024</td>
+          <td class="date">Active</td>
+          <td class="status"><span class="badge badge-active">Active</span></td>
+          <td class="days-left active">Ongoing</td>
+        </tr>
+        <tr>
+          <td class="version">14 "Upside Down Cake"</td>
+          <td class="date">Oct 4 2023</td>
+          <td class="date">Active (EOL pending)</td>
+          <td class="status"><span class="badge badge-warning">Warning</span></td>
+          <td class="days-left warning">Ongoing</td>
+        </tr>
+        <tr>
+          <td class="version">13 "Tiramisu"</td>
+          <td class="date">Aug 15 2022</td>
+          <td class="date">Mar 2 2026</td>
+          <td class="status"><span class="badge badge-eol">End of Life</span></td>
+          <td class="days-left eol">—</td>
+        </tr>
+        <tr>
+          <td class="version">12 / 12.1 "Snow Cone"</td>
+          <td class="date">Oct 2021</td>
+          <td class="date">Mar 3 2025</td>
+          <td class="status"><span class="badge badge-eol">End of Life</span></td>
+          <td class="days-left eol">—</td>
+        </tr>
+      </tbody>
+    </table>
+    <span class="disclaimer">Source: <a href="https://endoflife.date/android" target="_blank">endoflife.date/android</a> + <a href="https://source.android.com/docs/security/bulletin" target="_blank">Android Security Bulletins</a> · Android has no universal vendor EOL policy — actual support depends on manufacturer (Pixel: ~7 years; OEMs vary widely).</span>
+  </section>
+
+</main>
+
+<footer>
+  <p>Data is approximate and sourced in June 2026. Verify at the linked official sources for critical decisions.</p>
+  <p style="margin-top:.3rem">Built with data from <a href="https://endoflife.date" target="_blank">endoflife.date</a>, <a href="https://learn.microsoft.com/en-us/lifecycle" target="_blank">Microsoft</a>, and <a href="https://support.apple.com/en-us/100100" target="_blank">Apple</a></p>
+</footer>
+
+<script>
+  function detectOS() {
+    var ua = navigator.userAgent;
+    var platform = navigator.platform || 'Unknown';
+    var os = 'Unknown';
+    var osDetail = '';
+    var osRelease = '';
+    var cpuCores = navigator.hardwareConcurrency || 'N/A';
+    var memory = navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'N/A';
+    var screenW = screen.width;
+    var screenH = screen.height;
+    var screenAvailW = screen.availWidth;
+    var screenAvailH = screen.availHeight;
+    var dpr = window.devicePixelRatio || 1;
+    var touch = 'maxTouchPoints' in navigator ? (navigator.maxTouchPoints > 0 ? 'Yes (' + navigator.maxTouchPoints + ' pts)' : 'No') : 'Unknown';
+    var lang = navigator.language || 'Unknown';
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+
+    // Browser parsing
+    var browserName = 'Unknown';
+    var browserVersion = '';
+    if (ua.includes('Firefox/')) {
+      browserName = 'Firefox';
+      browserVersion = ua.split('Firefox/')[1];
+    } else if (ua.includes('Edg/')) {
+      browserName = 'Edge';
+      browserVersion = ua.split('Edg/')[1];
+    } else if (ua.includes('Chrome/') && !ua.includes('Edg')) {
+      browserName = 'Chrome';
+      browserVersion = ua.split('Chrome/')[1].split(' ')[0];
+    } else if (ua.includes('Safari/') && !ua.includes('Chrome')) {
+      browserName = 'Safari';
+      browserVersion = ua.includes('Version/') ? ua.split('Version/')[1].split(' ')[0] : '';
+    }
+    var browserFull = browserName + (browserVersion ? ' ' + browserVersion : '');
+
+    // Best-effort OS detection from UA
+    if (/Windows NT 10/.test(ua)) {
+      if (/Win64/.test(ua) || /x64/.test(ua)) {
+        os = 'Windows 10';
+        osRelease = '10';
+      } else {
+        os = 'Windows';
+        osRelease = 'NT 10';
+      }
+      var arch = /Win64/.test(ua) ? 'x64' : (/WOW64/.test(ua) ? 'x86 (WOW64)' : 'x86');
+      osDetail = arch;
+    } else if (/Windows NT 11/.test(ua)) {
+      os = 'Windows 11';
+      osRelease = '11';
+      osDetail = /Win64/.test(ua) ? 'x64' : 'x86';
+    } else if (/Windows NT (\d+\.\d+)/.test(ua)) {
+      os = 'Windows';
+      osDetail = 'NT ' + RegExp.$1;
+    } else if (/Mac OS X (\d+[._]\d+)/.test(ua)) {
+      var v = RegExp.$1.replace(/_/g, '.');
+      os = /iPad/.test(ua) ? 'iPadOS' : 'macOS';
+      osRelease = v;
+      osDetail = ua.includes('Macintosh') ? 'macOS' : 'iPadOS / iOS';
+    } else if (/iPhone OS (\d+_[0-9_]*)/.test(ua)) {
+      var v2 = RegExp.$1.replace(/_/g, '.');
+      os = 'iOS';
+      osRelease = v2;
+      osDetail = 'iPhone / iPad';
+    } else if (/Android (\d+\.?[0-9]*)/.test(ua)) {
+      os = 'Android';
+      osRelease = RegExp.$1;
+      osDetail = '';
+    } else if (/Linux/.test(ua)) {
+      os = 'Linux';
+    }
+
+    // Try userAgentData for more precise Windows platform version (Chromium browsers)
+    if ((os === 'Windows 10' || os === 'Windows 11') && navigator.userAgentData) {
+      navigator.userAgentData.getHighEntropyValues(['platformVersion']).then(function (uaData) {
+        var pv = (uaData.platformVersion || '').trim();
+        if (!pv) return;
+        // UA-CH platformVersion is a UniversalApiContract value, NOT a build number.
+        // It does NOT distinguish 22H2 from 21H2/21H1/20H2/2004 — they all share contract 10.
+        var major = pv.split('.')[0];
+        var text = 'contract ' + major;
+        if (os === 'Windows 10' && major === '10') {
+          text = '10 (cannot distinguish 2004/20H2/21H1/21H2/22H2 — all share contract 10)';
+        } else if (os === 'Windows 11' && parseInt(major, 10) >= 13) {
+          text = '11 (contract ' + major + ')';
+        }
+        document.getElementById('det-os-release').textContent = text + ' [raw: ' + pv + ']';
+      }).catch(function () {});
+    }
+
+    document.getElementById('det-os').textContent = os;
+    document.getElementById('det-os-release').textContent = osRelease;
+    document.getElementById('det-os-detail').textContent = osDetail || 'Detected from user agent';
+    document.getElementById('det-browser').textContent = browserFull;
+    document.getElementById('det-platform').textContent = platform;
+    document.getElementById('det-cores').textContent = cpuCores;
+    document.getElementById('det-memory').textContent = memory;
+    document.getElementById('det-screen').textContent = screenW + ' × ' + screenH + ' (avail: ' + screenAvailW + ' × ' + screenAvailH + ')';
+    document.getElementById('det-dpr').textContent = dpr.toFixed(1);
+    document.getElementById('det-touch').textContent = touch;
+    document.getElementById('det-lang').textContent = lang;
+    document.getElementById('det-tz').textContent = tz;
+
+    var warnEl = document.getElementById('detect-warning');
+    var warnTitle = document.getElementById('det-warn-title');
+    var warnMsg = document.getElementById('det-warn-msg');
+    warnEl.className = '';
+    warnEl.style.display = 'none';
+
+    function showWarn(title, msg, isEol) {
+      warnTitle.textContent = title;
+      warnMsg.textContent = msg;
+      warnEl.className = isEol ? 'eol' : '';
+      warnEl.style.display = 'block';
+    }
+
+    if (os === 'Windows 10') {
+      showWarn('⚠️ Windows 10 EOL', 'Support ends October 14, 2025. No security updates after that.', true);
+    } else if (os === 'Windows 11') {
+      showWarn('ℹ️ Windows 11 detected', 'Exact release version (21H2/22H2/etc.) cannot be determined from the browser. Check Settings → About to confirm.', false);
+    } else if (os === 'iOS' && parseInt(osRelease.split('.')[0], 10) < 17) {
+      showWarn('⚠️ Unsupported iOS', 'Versions older than iOS 17 are no longer receiving regular security patches.', true);
+    } else if (os === 'Android' && parseInt(osRelease, 10) < 14) {
+      showWarn('⚠️ Unsupported Android', 'Android 13 and older are no longer receiving Google security updates.', true);
+    } else if (os === 'Linux') {
+      showWarn('ℹ️ Linux detected', 'Linux support is distribution- and vendor-specific.', false);
+    } else if (os === 'Unknown') {
+      showWarn('❓ Unknown OS', 'Could not detect your OS from the browser.', false);
+    }
+  }
+
+  document.getElementById('detect-os-btn').addEventListener('click', detectOS);
+</script>
+
+</body>
+</html>
