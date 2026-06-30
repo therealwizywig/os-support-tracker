@@ -28,10 +28,7 @@
       margin-bottom: .5rem;
     }
 
-    header p {
-      color: #8b90a5;
-      font-size: .95rem;
-    }
+    header p { color: #8b90a5; font-size: .95rem; }
 
     .badge {
       display: inline-block;
@@ -55,15 +52,75 @@
       display: block;
     }
 
+    /* ── Device Banner ── */
+    #device-banner {
+      background: #131620;
+      border-bottom: 1px solid #2e3348;
+    }
+    .device-banner-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+    }
+    .device-banner-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .65rem;
+    }
+    .device-banner-title span {
+      font-size: .7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: #6e7391;
+    }
+    #banner-close {
+      background: none;
+      border: none;
+      color: #4b5068;
+      cursor: pointer;
+      font-size: .85rem;
+      padding: .15rem .4rem;
+      border-radius: 4px;
+      line-height: 1;
+      transition: color .15s, background .15s;
+    }
+    #banner-close:hover { color: #e6e8ee; background: #2e3348; }
+
+    .device-info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: .5rem 1.25rem;
+    }
+    .device-info-item { display: flex; flex-direction: column; gap: .07rem; }
+    .device-info-label {
+      font-size: .68rem;
+      color: #5a5f7a;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+    }
+    .device-info-value { font-size: .85rem; font-weight: 600; color: #c8ccd8; }
+
+    #detect-warning {
+      display: none;
+      margin-top: .75rem;
+      padding: .55rem .9rem;
+      border-radius: 7px;
+      font-size: .82rem;
+    }
+    #detect-warning.warning { background: #3b2e0d; color: #fbbf24; border: 1px solid #4a3a10; }
+    #detect-warning.eol     { background: #3b0d0d; color: #f87171; border: 1px solid #4a1010; }
+    #detect-warning.info    { background: #0d1a33; color: #60a5fa; border: 1px solid #10284a; }
+
+    /* ── Main Layout ── */
     main {
       max-width: 1100px;
       margin: 0 auto;
       padding: 2.5rem 1.5rem 4rem;
     }
 
-    .os-section {
-      margin-bottom: 3rem;
-    }
+    .os-section { margin-bottom: 3rem; }
 
     .os-header {
       display: flex;
@@ -72,21 +129,11 @@
       margin-bottom: 1.25rem;
     }
 
-    .os-icon {
-      font-size: 2rem;
-      line-height: 1;
-    }
+    .os-icon { font-size: 2rem; line-height: 1; }
 
-    .os-header h2 {
-      font-size: 1.35rem;
-      font-weight: 600;
-    }
+    .os-header h2 { font-size: 1.35rem; font-weight: 600; }
 
-    .os-header .os-sub {
-      font-size: .8rem;
-      color: #8b90a5;
-      margin-left: .5rem;
-    }
+    .os-header .os-sub { font-size: .8rem; color: #8b90a5; margin-left: .5rem; }
 
     table {
       width: 100%;
@@ -97,9 +144,7 @@
       font-size: .88rem;
     }
 
-    thead {
-      background: #1e2233;
-    }
+    thead { background: #1e2233; }
 
     thead th {
       text-align: left;
@@ -112,69 +157,22 @@
       border-bottom: 1px solid #2e3348;
     }
 
-    tbody tr {
-      border-bottom: 1px solid #232739;
-      transition: background .15s;
-    }
+    tbody tr { border-bottom: 1px solid #232739; transition: background .15s; }
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: #1d2030; }
 
-    td {
-      padding: .65rem 1rem;
-      vertical-align: middle;
-    }
+    td { padding: .65rem 1rem; vertical-align: middle; }
 
-    td.version {
-      font-weight: 600;
-      color: #d1d5e0;
-      white-space: nowrap;
-    }
-
+    td.version { font-weight: 600; color: #d1d5e0; white-space: nowrap; }
     td.date { color: #8b90a5; white-space: nowrap; }
+    td.status { text-align: center; }
 
-    td.status {
-      text-align: center;
-    }
-
-    .days-left {
-      font-weight: 600;
-      text-align: right;
-    }
+    .days-left { font-weight: 600; text-align: right; }
     .days-left.active  { color: #34d399; }
     .days-left.warning { color: #fbbf24; }
     .days-left.eol     { color: #6b7280; }
 
-    #detect-result {
-      display: none;
-      background: #181b26;
-      border: 1px solid #2e3348;
-      border-radius: 10px;
-      padding: 1.1rem 1.4rem;
-      margin-bottom: 1.5rem;
-    }
-    #detect-result.show { display: block; }
-    #detect-result h3 {
-      font-size: .8rem;
-      text-transform: uppercase;
-      color: #8b90a5;
-      letter-spacing: .4px;
-      margin-bottom: .5rem;
-      margin-top: .7rem;
-    }
-    #detect-result h3:first-child { margin-top: 0; }
-    #detect-result .info-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: .4rem 1rem;
-      font-size: .88rem;
-    }
-    #detect-result .info-item { color: #c8ccd8; }
-    #detect-result .info-label { color: #6e7391; font-size: .8rem; display: block; }
-    #detect-result .info-value { color: #e6e8ee; font-weight: 600; }
-    #detect-result #detect-warning { background: #3b2e0d; color: #fbbf24; border: 1px solid #4a3a10; }
-    #detect-result #detect-warning.eol { background: #3b0d0d; color: #f87171; border-color: #4a1010; }
-
-footer {
+    footer {
       text-align: center;
       color: #4b5068;
       font-size: .75rem;
@@ -185,7 +183,7 @@ footer {
     @media (max-width: 600px) {
       header h1 { font-size: 1.5rem; }
       thead th, td { padding: .5rem .6rem; font-size: .8rem; }
-      td.date.white { display: none; }
+      .device-info-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
     }
   </style>
 </head>
@@ -203,7 +201,70 @@ footer {
   </p>
 </header>
 
-  <main>
+<!-- ════════════════ DEVICE BANNER ════════════════ -->
+<div id="device-banner">
+  <div class="device-banner-inner">
+    <div class="device-banner-title">
+      <span>Your Device</span>
+      <button id="banner-close" aria-label="Dismiss">✕</button>
+    </div>
+    <div class="device-info-grid">
+      <div class="device-info-item">
+        <span class="device-info-label">OS</span>
+        <span id="det-os" class="device-info-value">Detecting…</span>
+      </div>
+      <div class="device-info-item">
+        <span class="device-info-label">OS Version</span>
+        <span id="det-os-release" class="device-info-value">—</span>
+      </div>
+      <div class="device-info-item">
+        <span class="device-info-label">Architecture</span>
+        <span id="det-os-detail" class="device-info-value">—</span>
+      </div>
+      <div class="device-info-item">
+        <span class="device-info-label">Browser</span>
+        <span id="det-browser" class="device-info-value">—</span>
+      </div>
+      <div class="device-info-item">
+        <span class="device-info-label">Platform</span>
+        <span id="det-platform" class="device-info-value">—</span>
+      </div>
+      <div class="device-info-item">
+        <span class="device-info-label">Screen</span>
+        <span id="det-screen" class="device-info-value">—</span>
+      </div>
+      <div class="device-info-item">
+        <span class="device-info-label">Pixel Ratio</span>
+        <span id="det-dpr" class="device-info-value">—</span>
+      </div>
+      <div class="device-info-item">
+        <span class="device-info-label">CPU Cores</span>
+        <span id="det-cores" class="device-info-value">—</span>
+      </div>
+      <div class="device-info-item">
+        <span class="device-info-label">RAM</span>
+        <span id="det-memory" class="device-info-value">—</span>
+      </div>
+      <div class="device-info-item">
+        <span class="device-info-label">Touch</span>
+        <span id="det-touch" class="device-info-value">—</span>
+      </div>
+      <div class="device-info-item">
+        <span class="device-info-label">Language</span>
+        <span id="det-lang" class="device-info-value">—</span>
+      </div>
+      <div class="device-info-item">
+        <span class="device-info-label">Time Zone</span>
+        <span id="det-tz" class="device-info-value">—</span>
+      </div>
+    </div>
+    <div id="detect-warning">
+      <strong id="det-warn-title"></strong><span id="det-warn-msg"></span>
+    </div>
+  </div>
+</div>
+
+<main>
 
   <!-- ════════════════ WINDOWS ════════════════ -->
   <section class="os-section" id="windows">
@@ -226,42 +287,42 @@ footer {
         <tr>
           <td class="version">26H1</td>
           <td class="date">Feb 10 2026</td>
-          <td class="date">Mar 14 2028</td>
+          <td class="date" data-eol="2028-03-14">Mar 14 2028</td>
           <td class="status"><span class="badge badge-active">Active</span></td>
-          <td class="days-left active">~21 months</td>
+          <td class="days-left active"></td>
         </tr>
         <tr>
           <td class="version">25H2</td>
           <td class="date">Sep 30 2025</td>
-          <td class="date">Oct 12 2027</td>
+          <td class="date" data-eol="2027-10-12">Oct 12 2027</td>
           <td class="status"><span class="badge badge-active">Active</span></td>
-          <td class="days-left active">~16 months</td>
+          <td class="days-left active"></td>
         </tr>
         <tr>
           <td class="version">24H2</td>
           <td class="date">Oct 1 2024</td>
-          <td class="date">Oct 13 2026</td>
+          <td class="date" data-eol="2026-10-13">Oct 13 2026</td>
           <td class="status"><span class="badge badge-warning">Warning</span></td>
-          <td class="days-left warning">~5 months</td>
+          <td class="days-left warning"></td>
         </tr>
         <tr>
           <td class="version">23H2</td>
           <td class="date">Oct 31 2023</td>
-          <td class="date">Nov 11 2025</td>
+          <td class="date" data-eol="2025-11-11">Nov 11 2025</td>
           <td class="status"><span class="badge badge-eol">End of Life</span></td>
           <td class="days-left eol">—</td>
         </tr>
         <tr>
           <td class="version">22H2</td>
           <td class="date">Sep 20 2022</td>
-          <td class="date">Oct 8 2024</td>
+          <td class="date" data-eol="2024-10-08">Oct 8 2024</td>
           <td class="status"><span class="badge badge-eol">End of Life</span></td>
           <td class="days-left eol">—</td>
         </tr>
         <tr>
           <td class="version">21H2</td>
           <td class="date">Oct 4 2021</td>
-          <td class="date">Oct 10 2023</td>
+          <td class="date" data-eol="2023-10-10">Oct 10 2023</td>
           <td class="status"><span class="badge badge-eol">End of Life</span></td>
           <td class="days-left eol">—</td>
         </tr>
@@ -297,8 +358,8 @@ footer {
       <tbody>
         <tr>
           <td class="version">26 (Tahoe)</td>
-          <td class="date">Sep 15 2025</td>
-          <td class="date">Late 2026 — 2027</td>
+          <td class="date">Sep 22 2025</td>
+          <td class="date">Late 2027</td>
           <td class="status"><span class="badge badge-active">Active</span></td>
           <td class="days-left active">~1–2 years</td>
         </tr>
@@ -346,8 +407,8 @@ footer {
   <section class="os-section" id="ios">
     <div class="os-header">
       <img class="os-logo" src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Apple_logo_grey.svg" alt="iOS" style="height:2rem;filter:brightness(0) invert(1);">
-      <h2>iOS</h2>
-      <span class="os-sub">iPhone / iPad OS (major versions)</span>
+      <h2>iOS / iPadOS</h2>
+      <span class="os-sub">iPhone &amp; iPad (major versions)</span>
     </div>
     <table>
       <thead>
@@ -362,8 +423,8 @@ footer {
       <tbody>
         <tr>
           <td class="version">26</td>
-          <td class="date">Sep 15 2025</td>
-          <td class="date">Late 2026 – 2027</td>
+          <td class="date">Sep 22 2025</td>
+          <td class="date">Late 2027</td>
           <td class="status"><span class="badge badge-active">Active</span></td>
           <td class="days-left active">~1–2 years</td>
         </tr>
@@ -441,7 +502,7 @@ footer {
         </tr>
         <tr>
           <td class="version">15 "Vanilla Ice Cream"</td>
-          <td class="date">Sep 3 2024</td>
+          <td class="date">Oct 15 2024</td>
           <td class="date">Active</td>
           <td class="status"><span class="badge badge-active">Active</span></td>
           <td class="days-left active">Ongoing</td>
@@ -480,137 +541,246 @@ footer {
 </footer>
 
 <script>
-  function detectOS() {
-    var ua = navigator.userAgent;
-    var platform = navigator.platform || 'Unknown';
-    var os = 'Unknown';
-    var osDetail = '';
-    var osRelease = '';
-    var cpuCores = navigator.hardwareConcurrency || 'N/A';
-    var memory = navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'N/A';
-    var screenW = screen.width;
-    var screenH = screen.height;
-    var screenAvailW = screen.availWidth;
-    var screenAvailH = screen.availHeight;
-    var dpr = window.devicePixelRatio || 1;
-    var touch = 'maxTouchPoints' in navigator ? (navigator.maxTouchPoints > 0 ? 'Yes (' + navigator.maxTouchPoints + ' pts)' : 'No') : 'Unknown';
-    var lang = navigator.language || 'Unknown';
-    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+(function () {
 
-    // Browser parsing
-    var browserName = 'Unknown';
-    var browserVersion = '';
-    if (ua.includes('Firefox/')) {
-      browserName = 'Firefox';
-      browserVersion = ua.split('Firefox/')[1];
-    } else if (ua.includes('Edg/')) {
-      browserName = 'Edge';
-      browserVersion = ua.split('Edg/')[1];
-    } else if (ua.includes('Chrome/') && !ua.includes('Edg')) {
-      browserName = 'Chrome';
-      browserVersion = ua.split('Chrome/')[1].split(' ')[0];
-    } else if (ua.includes('Safari/') && !ua.includes('Chrome')) {
-      browserName = 'Safari';
-      browserVersion = ua.includes('Version/') ? ua.split('Version/')[1].split(' ')[0] : '';
-    }
-    var browserFull = browserName + (browserVersion ? ' ' + browserVersion : '');
+  // ── Dynamic countdown for rows with a data-eol attribute ─────────────────
+  function updateCountdowns() {
+    var now = new Date();
+    document.querySelectorAll('[data-eol]').forEach(function (cell) {
+      var eol = new Date(cell.dataset.eol + 'T00:00:00');
+      var tr = cell.closest('tr');
+      var daysCell = tr && tr.querySelector('.days-left');
+      var badge    = tr && tr.querySelector('.badge');
+      if (!daysCell) return;
 
-    // Best-effort OS detection from UA
-    if (/Windows NT 10/.test(ua)) {
-      if (/Win64/.test(ua) || /x64/.test(ua)) {
-        os = 'Windows 10';
-        osRelease = '10';
-      } else {
-        os = 'Windows';
-        osRelease = 'NT 10';
+      var ms = eol - now;
+      if (ms <= 0) {
+        daysCell.textContent = '—';
+        daysCell.className = 'days-left eol';
+        if (badge) { badge.className = 'badge badge-eol'; badge.textContent = 'End of Life'; }
+        return;
       }
-      var arch = /Win64/.test(ua) ? 'x64' : (/WOW64/.test(ua) ? 'x86 (WOW64)' : 'x86');
-      osDetail = arch;
-    } else if (/Windows NT 11/.test(ua)) {
-      os = 'Windows 11';
-      osRelease = '11';
-      osDetail = /Win64/.test(ua) ? 'x64' : 'x86';
-    } else if (/Windows NT (\d+\.\d+)/.test(ua)) {
-      os = 'Windows';
-      osDetail = 'NT ' + RegExp.$1;
-    } else if (/Mac OS X (\d+[._]\d+)/.test(ua)) {
-      var v = RegExp.$1.replace(/_/g, '.');
-      os = /iPad/.test(ua) ? 'iPadOS' : 'macOS';
-      osRelease = v;
-      osDetail = ua.includes('Macintosh') ? 'macOS' : 'iPadOS / iOS';
-    } else if (/iPhone OS (\d+_[0-9_]*)/.test(ua)) {
-      var v2 = RegExp.$1.replace(/_/g, '.');
-      os = 'iOS';
-      osRelease = v2;
-      osDetail = 'iPhone / iPad';
-    } else if (/Android (\d+\.?[0-9]*)/.test(ua)) {
-      os = 'Android';
-      osRelease = RegExp.$1;
-      osDetail = '';
-    } else if (/Linux/.test(ua)) {
-      os = 'Linux';
-    }
 
-    // Try userAgentData for more precise Windows platform version (Chromium browsers)
-    if ((os === 'Windows 10' || os === 'Windows 11') && navigator.userAgentData) {
-      navigator.userAgentData.getHighEntropyValues(['platformVersion']).then(function (uaData) {
-        var pv = (uaData.platformVersion || '').trim();
-        if (!pv) return;
-        // UA-CH platformVersion is a UniversalApiContract value, NOT a build number.
-        // It does NOT distinguish 22H2 from 21H2/21H1/20H2/2004 — they all share contract 10.
-        var major = pv.split('.')[0];
-        var text = 'contract ' + major;
-        if (os === 'Windows 10' && major === '10') {
-          text = '10 (cannot distinguish 2004/20H2/21H1/21H2/22H2 — all share contract 10)';
-        } else if (os === 'Windows 11' && parseInt(major, 10) >= 13) {
-          text = '11 (contract ' + major + ')';
+      var days   = Math.ceil(ms / 86400000);
+      var months = Math.round(ms / (86400000 * 30.44));
+      var text   = days < 30
+        ? days + ' day' + (days === 1 ? '' : 's')
+        : '~' + months + ' month' + (months === 1 ? '' : 's');
+
+      daysCell.textContent = text;
+      if (days <= 90) {
+        daysCell.className = 'days-left warning';
+        if (badge) { badge.className = 'badge badge-warning'; badge.textContent = 'Warning'; }
+      } else {
+        daysCell.className = 'days-left active';
+        if (badge) { badge.className = 'badge badge-active'; badge.textContent = 'Active'; }
+      }
+    });
+  }
+
+  updateCountdowns();
+
+  // ── OS / browser detection ────────────────────────────────────────────────
+  var ua       = navigator.userAgent;
+  var os       = 'Unknown';
+  var osRelease = '';
+  var osDetail  = '';
+
+  // Browser
+  var browserName = 'Unknown', browserVersion = '';
+  if (ua.indexOf('Firefox/') !== -1) {
+    browserName    = 'Firefox';
+    browserVersion = ua.split('Firefox/')[1].split(' ')[0];
+  } else if (ua.indexOf('Edg/') !== -1) {
+    browserName    = 'Edge';
+    browserVersion = ua.split('Edg/')[1].split(' ')[0];
+  } else if (ua.indexOf('OPR/') !== -1) {
+    browserName    = 'Opera';
+    browserVersion = ua.split('OPR/')[1].split(' ')[0];
+  } else if (ua.indexOf('Chrome/') !== -1 && ua.indexOf('Edg/') === -1) {
+    browserName    = 'Chrome';
+    browserVersion = ua.split('Chrome/')[1].split(' ')[0];
+  } else if (ua.indexOf('Safari/') !== -1 && ua.indexOf('Chrome/') === -1) {
+    browserName    = 'Safari';
+    browserVersion = ua.indexOf('Version/') !== -1
+      ? ua.split('Version/')[1].split(' ')[0] : '';
+  }
+
+  // OS — Windows 10 and Windows 11 both report "Windows NT 10.0"; use UA-CH to tell them apart
+  var isWindowsNT10 = /Windows NT 10\.0/.test(ua);
+
+  if (isWindowsNT10) {
+    os        = 'Windows 10 / 11';
+    osRelease = 'resolving…';
+    osDetail  = /Win64|x64/.test(ua) ? 'x64' : (/WOW64/.test(ua) ? 'x86 (WOW64)' : 'x86');
+  } else if (/Windows NT (\d+\.\d+)/.test(ua)) {
+    os       = 'Windows';
+    osDetail = 'NT ' + RegExp.$1;
+  } else if (/iPad/.test(ua) && /Mac OS X (\d+[._]\d+)/.test(ua)) {
+    // iPads in desktop-mode spoof Macintosh; check iPad first
+    os        = 'iPadOS';
+    osRelease = RegExp.$1.replace(/_/g, '.');
+    osDetail  = 'iPad';
+  } else if (/Macintosh/.test(ua) && /Mac OS X (\d+[._]\d+)/.test(ua)) {
+    os        = 'macOS';
+    osRelease = RegExp.$1.replace(/_/g, '.');
+  } else if (/iPhone OS (\d+_[0-9_]*)/.test(ua)) {
+    os        = 'iOS';
+    osRelease = RegExp.$1.replace(/_/g, '.');
+    osDetail  = 'iPhone';
+  } else if (/Android (\d+\.?[0-9]*)/.test(ua)) {
+    os        = 'Android';
+    osRelease = RegExp.$1;
+  } else if (/CrOS/.test(ua)) {
+    os = 'ChromeOS';
+  } else if (/Linux/.test(ua)) {
+    os = 'Linux';
+  }
+
+  var cpuCores = navigator.hardwareConcurrency || 'N/A';
+  var memory   = navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'N/A';
+  var dpr      = window.devicePixelRatio || 1;
+  var touch    = 'maxTouchPoints' in navigator
+    ? (navigator.maxTouchPoints > 0 ? 'Yes (' + navigator.maxTouchPoints + ' pts)' : 'No')
+    : 'Unknown';
+  var lang = navigator.language || 'Unknown';
+  var tz   = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+
+  function set(id, val) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = val !== undefined && val !== '' ? val : '—';
+  }
+
+  set('det-os',        os);
+  set('det-os-release', osRelease);
+  set('det-os-detail',  osDetail || '—');
+  set('det-browser',    browserName + (browserVersion ? ' ' + browserVersion : ''));
+  set('det-platform',   navigator.platform || 'Unknown');
+  set('det-cores',      cpuCores);
+  set('det-memory',     memory);
+  set('det-screen',
+    screen.width + ' × ' + screen.height +
+    ' (avail: ' + screen.availWidth + ' × ' + screen.availHeight + ')');
+  set('det-dpr',   dpr.toFixed(1));
+  set('det-touch', touch);
+  set('det-lang',  lang);
+  set('det-tz',    tz);
+
+  showWarning(os, osRelease);
+
+  // UA-CH refines Windows 10 vs Windows 11 in Chromium-family browsers.
+  // platformVersion >= 13 → Windows 11; < 13 → Windows 10.
+  if (isWindowsNT10 && navigator.userAgentData) {
+    navigator.userAgentData
+      .getHighEntropyValues(['platformVersion'])
+      .then(function (uaData) {
+        var pv    = (uaData.platformVersion || '').trim();
+        var major = parseInt((pv || '0').split('.')[0], 10);
+        var resolvedOS, resolvedRelease;
+
+        if (!pv) {
+          resolvedOS      = 'Windows 10 / 11';
+          resolvedRelease = '(UA-CH returned empty)';
+        } else if (major >= 13) {
+          resolvedOS      = 'Windows 11';
+          resolvedRelease = '11 (platform contract ' + major + ')';
+        } else {
+          resolvedOS      = 'Windows 10';
+          resolvedRelease = '10';
         }
-        document.getElementById('det-os-release').textContent = text + ' [raw: ' + pv + ']';
-      }).catch(function () {});
-    }
 
-    document.getElementById('det-os').textContent = os;
-    document.getElementById('det-os-release').textContent = osRelease;
-    document.getElementById('det-os-detail').textContent = osDetail || 'Detected from user agent';
-    document.getElementById('det-browser').textContent = browserFull;
-    document.getElementById('det-platform').textContent = platform;
-    document.getElementById('det-cores').textContent = cpuCores;
-    document.getElementById('det-memory').textContent = memory;
-    document.getElementById('det-screen').textContent = screenW + ' × ' + screenH + ' (avail: ' + screenAvailW + ' × ' + screenAvailH + ')';
-    document.getElementById('det-dpr').textContent = dpr.toFixed(1);
-    document.getElementById('det-touch').textContent = touch;
-    document.getElementById('det-lang').textContent = lang;
-    document.getElementById('det-tz').textContent = tz;
+        set('det-os',         resolvedOS);
+        set('det-os-release', resolvedRelease);
+        showWarning(resolvedOS, resolvedRelease);
+      })
+      .catch(function () {
+        set('det-os-release', '(UA-CH lookup failed)');
+      });
+  }
 
-    var warnEl = document.getElementById('detect-warning');
-    var warnTitle = document.getElementById('det-warn-title');
-    var warnMsg = document.getElementById('det-warn-msg');
-    warnEl.className = '';
+  function showWarning(detOS, release) {
+    var warnEl   = document.getElementById('detect-warning');
+    var titleEl  = document.getElementById('det-warn-title');
+    var msgEl    = document.getElementById('det-warn-msg');
+    if (!warnEl) return;
+
     warnEl.style.display = 'none';
+    warnEl.className     = '';
 
-    function showWarn(title, msg, isEol) {
-      warnTitle.textContent = title;
-      warnMsg.textContent = msg;
-      warnEl.className = isEol ? 'eol' : '';
+    function show(title, msg, cls) {
+      titleEl.textContent = title + ' ';
+      msgEl.textContent   = msg;
+      warnEl.className    = cls;
       warnEl.style.display = 'block';
     }
 
-    if (os === 'Windows 10') {
-      showWarn('⚠️ Windows 10 EOL', 'Support ends October 14, 2025. No security updates after that.', true);
-    } else if (os === 'Windows 11') {
-      showWarn('ℹ️ Windows 11 detected', 'Exact release version (21H2/22H2/etc.) cannot be determined from the browser. Check Settings → About to confirm.', false);
-    } else if (os === 'iOS' && parseInt(osRelease.split('.')[0], 10) < 17) {
-      showWarn('⚠️ Unsupported iOS', 'Versions older than iOS 17 are no longer receiving regular security patches.', true);
-    } else if (os === 'Android' && parseInt(osRelease, 10) < 14) {
-      showWarn('⚠️ Unsupported Android', 'Android 13 and older are no longer receiving Google security updates.', true);
-    } else if (os === 'Linux') {
-      showWarn('ℹ️ Linux detected', 'Linux support is distribution- and vendor-specific.', false);
-    } else if (os === 'Unknown') {
-      showWarn('❓ Unknown OS', 'Could not detect your OS from the browser.', false);
+    if (detOS === 'Windows 10') {
+      show(
+        '⚠ Windows 10 reached End of Life on October 14, 2025.',
+        'No security updates are being released. Upgrade to Windows 11 or consider migrating to another OS.',
+        'eol'
+      );
+    } else if (detOS === 'Windows 11') {
+      show(
+        'ℹ Windows 11 detected.',
+        'Check Settings → System → About to confirm your exact version (e.g. 24H2, 25H2, 26H1) and ensure it is still supported.',
+        'info'
+      );
+    } else if (detOS === 'Windows 10 / 11') {
+      show(
+        'ℹ Windows detected.',
+        'Your browser doesn\'t support UA-CH, so this could be Windows 10 (EOL) or Windows 11. Run winver to confirm which version you have.',
+        'info'
+      );
+    } else if (detOS === 'macOS') {
+      // Chromium-family browsers freeze their macOS UA at 10.15.7 regardless of actual version
+      var macMajor = parseInt((release || '10').split('.')[0], 10);
+      if (macMajor <= 10) {
+        show(
+          'ℹ macOS version may be inaccurate.',
+          'Chrome and Edge report macOS 10.15 even on newer versions. Use Safari for accurate detection, or check Apple menu → About This Mac.',
+          'info'
+        );
+      }
+    } else if (detOS === 'iOS' || detOS === 'iPadOS') {
+      var iosMajor = parseInt((release || '0').split('.')[0], 10);
+      if (iosMajor > 0 && iosMajor < 17) {
+        show(
+          '⚠ ' + detOS + ' ' + iosMajor + ' is no longer receiving regular security patches.',
+          'Update to iOS/iPadOS 18 or 26 for continued security updates.',
+          'eol'
+        );
+      }
+    } else if (detOS === 'Android') {
+      var androidMajor = parseInt(release || '0', 10);
+      if (androidMajor > 0 && androidMajor < 14) {
+        show(
+          '⚠ Android ' + androidMajor + ' no longer receives Google security updates.',
+          'Update to Android 14 or newer.',
+          'eol'
+        );
+      }
+    } else if (detOS === 'ChromeOS') {
+      show(
+        'ℹ ChromeOS detected.',
+        'Check your Chromebook\'s Auto Update Expiration (AUE) date in Settings → About ChromeOS.',
+        'info'
+      );
+    } else if (detOS === 'Linux') {
+      show(
+        'ℹ Linux detected.',
+        'Security support is distribution-specific. Check your distro\'s LTS support schedule.',
+        'info'
+      );
     }
   }
 
-  document.getElementById('detect-os-btn').addEventListener('click', detectOS);
+  // Dismiss banner
+  document.getElementById('banner-close').addEventListener('click', function () {
+    document.getElementById('device-banner').style.display = 'none';
+  });
+
+})();
 </script>
 
 </body>
