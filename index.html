@@ -113,6 +113,41 @@
     #detect-warning.eol     { background: #3b0d0d; color: #f87171; border: 1px solid #4a1010; }
     #detect-warning.info    { background: #0d1a33; color: #60a5fa; border: 1px solid #10284a; }
 
+    /* ── Dynamically-loaded "how to check your version" card ── */
+    #device-howto { margin-top: 1rem; }
+    #device-howto .os-header { display: flex; align-items: center; gap: .6rem; margin-bottom: .8rem; }
+    #device-howto .os-logo { height: 1.5rem; filter: brightness(0) invert(1); }
+    #device-howto .os-header h2 { font-size: 1rem; font-weight: 600; }
+    #device-howto .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: .8rem;
+    }
+    #device-howto .card {
+      background: #181b26;
+      border: 1px solid #232739;
+      border-radius: 10px;
+      padding: .9rem 1.1rem;
+    }
+    #device-howto .card h3 {
+      font-size: .8rem;
+      color: #9ca0b8;
+      margin-bottom: .5rem;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+    #device-howto .card ol { padding-left: 1.1rem; font-size: .82rem; }
+    #device-howto .card li { margin-bottom: .25rem; color: #c8ccd8; }
+    #device-howto .card code {
+      background: #0f1117;
+      border: 1px solid #2e3348;
+      border-radius: 5px;
+      padding: .12rem .35rem;
+      font-size: .76rem;
+      font-family: Consolas, Monaco, monospace;
+      color: #e0e4f0;
+    }
+
     /* ── Main Layout ── */
     main {
       max-width: 1100px;
@@ -222,53 +257,14 @@
         <span id="det-os" class="device-info-value">Detecting…</span>
       </div>
       <div class="device-info-item">
-        <span class="device-info-label">OS Version</span>
-        <span id="det-os-release" class="device-info-value">—</span>
-      </div>
-      <div class="device-info-item">
-        <span class="device-info-label">Architecture</span>
-        <span id="det-os-detail" class="device-info-value">—</span>
-      </div>
-      <div class="device-info-item">
-        <span class="device-info-label">Browser</span>
-        <span id="det-browser" class="device-info-value">—</span>
-      </div>
-      <div class="device-info-item">
-        <span class="device-info-label">Platform</span>
-        <span id="det-platform" class="device-info-value">—</span>
-      </div>
-      <div class="device-info-item">
-        <span class="device-info-label">Screen</span>
-        <span id="det-screen" class="device-info-value">—</span>
-      </div>
-      <div class="device-info-item">
-        <span class="device-info-label">Pixel Ratio</span>
-        <span id="det-dpr" class="device-info-value">—</span>
-      </div>
-      <div class="device-info-item">
-        <span class="device-info-label">CPU Cores</span>
-        <span id="det-cores" class="device-info-value">—</span>
-      </div>
-      <div class="device-info-item">
-        <span class="device-info-label">RAM</span>
-        <span id="det-memory" class="device-info-value">—</span>
-      </div>
-      <div class="device-info-item">
-        <span class="device-info-label">Touch</span>
-        <span id="det-touch" class="device-info-value">—</span>
-      </div>
-      <div class="device-info-item">
         <span class="device-info-label">Language</span>
         <span id="det-lang" class="device-info-value">—</span>
-      </div>
-      <div class="device-info-item">
-        <span class="device-info-label">Time Zone</span>
-        <span id="det-tz" class="device-info-value">—</span>
       </div>
     </div>
     <div id="detect-warning">
       <strong id="det-warn-title"></strong><span id="det-warn-msg"></span>
     </div>
+    <div id="device-howto"></div>
   </div>
 </div>
 
@@ -588,54 +584,59 @@
 
   updateCountdowns();
 
-  // ── OS / browser detection ────────────────────────────────────────────────
+  // ── Dynamically load the matching "how to check your version" card ───────
+  var howToSectionByOS = {
+    'Windows':          'howto-windows',
+    'Windows 10':       'howto-windows',
+    'Windows 11':       'howto-windows',
+    'Windows 10 / 11':  'howto-windows',
+    'macOS':            'howto-macos',
+    'iOS':              'howto-ios',
+    'iPadOS':           'howto-ios',
+    'Android':          'howto-android'
+  };
+  var howToCache = null;
+
+  function loadHowTo(detOS) {
+    var container = document.getElementById('device-howto');
+    var sectionId = howToSectionByOS[detOS];
+    if (!container || !sectionId) return;
+
+    (howToCache ? Promise.resolve(howToCache) : fetch('how-to-check-os.html').then(function (res) {
+      return res.text();
+    }))
+      .then(function (html) {
+        howToCache = html;
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var section = doc.getElementById(sectionId);
+        if (section) container.innerHTML = section.innerHTML;
+      })
+      .catch(function () {});
+  }
+
+  // ── OS detection ─────────────────────────────────────────────────────────
   var ua       = navigator.userAgent;
   var os       = 'Unknown';
   var osRelease = '';
-  var osDetail  = '';
 
-  // Browser
-  var browserName = 'Unknown', browserVersion = '';
-  if (ua.indexOf('Firefox/') !== -1) {
-    browserName    = 'Firefox';
-    browserVersion = ua.split('Firefox/')[1].split(' ')[0];
-  } else if (ua.indexOf('Edg/') !== -1) {
-    browserName    = 'Edge';
-    browserVersion = ua.split('Edg/')[1].split(' ')[0];
-  } else if (ua.indexOf('OPR/') !== -1) {
-    browserName    = 'Opera';
-    browserVersion = ua.split('OPR/')[1].split(' ')[0];
-  } else if (ua.indexOf('Chrome/') !== -1 && ua.indexOf('Edg/') === -1) {
-    browserName    = 'Chrome';
-    browserVersion = ua.split('Chrome/')[1].split(' ')[0];
-  } else if (ua.indexOf('Safari/') !== -1 && ua.indexOf('Chrome/') === -1) {
-    browserName    = 'Safari';
-    browserVersion = ua.indexOf('Version/') !== -1
-      ? ua.split('Version/')[1].split(' ')[0] : '';
-  }
-
-  // OS — Windows 10 and Windows 11 both report "Windows NT 10.0"; use UA-CH to tell them apart
+  // Windows 10 and Windows 11 both report "Windows NT 10.0"; use UA-CH to tell them apart
   var isWindowsNT10 = /Windows NT 10\.0/.test(ua);
 
   if (isWindowsNT10) {
     os        = 'Windows 10 / 11';
     osRelease = 'resolving…';
-    osDetail  = /Win64|x64/.test(ua) ? 'x64' : (/WOW64/.test(ua) ? 'x86 (WOW64)' : 'x86');
   } else if (/Windows NT (\d+\.\d+)/.test(ua)) {
-    os       = 'Windows';
-    osDetail = 'NT ' + RegExp.$1;
+    os = 'Windows';
   } else if (/iPad/.test(ua) && /Mac OS X (\d+[._]\d+)/.test(ua)) {
     // iPads in desktop-mode spoof Macintosh; check iPad first
     os        = 'iPadOS';
     osRelease = RegExp.$1.replace(/_/g, '.');
-    osDetail  = 'iPad';
   } else if (/Macintosh/.test(ua) && /Mac OS X (\d+[._]\d+)/.test(ua)) {
     os        = 'macOS';
     osRelease = RegExp.$1.replace(/_/g, '.');
   } else if (/iPhone OS (\d+_[0-9_]*)/.test(ua)) {
     os        = 'iOS';
     osRelease = RegExp.$1.replace(/_/g, '.');
-    osDetail  = 'iPhone';
   } else if (/Android (\d+\.?[0-9]*)/.test(ua)) {
     os        = 'Android';
     osRelease = RegExp.$1;
@@ -645,36 +646,18 @@
     os = 'Linux';
   }
 
-  var cpuCores = navigator.hardwareConcurrency || 'N/A';
-  var memory   = navigator.deviceMemory ? navigator.deviceMemory + ' GB' : 'N/A';
-  var dpr      = window.devicePixelRatio || 1;
-  var touch    = 'maxTouchPoints' in navigator
-    ? (navigator.maxTouchPoints > 0 ? 'Yes (' + navigator.maxTouchPoints + ' pts)' : 'No')
-    : 'Unknown';
   var lang = navigator.language || 'Unknown';
-  var tz   = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
 
   function set(id, val) {
     var el = document.getElementById(id);
     if (el) el.textContent = val !== undefined && val !== '' ? val : '—';
   }
 
-  set('det-os',        os);
-  set('det-os-release', osRelease);
-  set('det-os-detail',  osDetail || '—');
-  set('det-browser',    browserName + (browserVersion ? ' ' + browserVersion : ''));
-  set('det-platform',   navigator.platform || 'Unknown');
-  set('det-cores',      cpuCores);
-  set('det-memory',     memory);
-  set('det-screen',
-    screen.width + ' × ' + screen.height +
-    ' (avail: ' + screen.availWidth + ' × ' + screen.availHeight + ')');
-  set('det-dpr',   dpr.toFixed(1));
-  set('det-touch', touch);
-  set('det-lang',  lang);
-  set('det-tz',    tz);
+  set('det-os',   os);
+  set('det-lang', lang);
 
   showWarning(os, osRelease);
+  loadHowTo(os);
 
   // UA-CH refines Windows 10 vs Windows 11 in Chromium-family browsers.
   // platformVersion >= 13 → Windows 11; < 13 → Windows 10.
@@ -697,13 +680,11 @@
           resolvedRelease = '10';
         }
 
-        set('det-os',         resolvedOS);
-        set('det-os-release', resolvedRelease);
+        set('det-os', resolvedOS);
         showWarning(resolvedOS, resolvedRelease);
+        loadHowTo(resolvedOS);
       })
-      .catch(function () {
-        set('det-os-release', '(UA-CH lookup failed)');
-      });
+      .catch(function () {});
   }
 
   function showWarning(detOS, release) {
